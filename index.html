@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sombras da República: A Trindade Filosófica</title>
+    <link rel="stylesheet" href="styles/index.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+
+<div id="lobby-screen">
+    <h1>Sombras da República</h1>
+    <p>Selecione a sua credencial para entrar na sala</p>
+    <button class="lobby-btn" onclick="escolherPapel('jogador')">👤 Entrar como Jogador</button>
+    <button class="lobby-btn" onclick="escolherPapel('mestre')">👑 Entrar como Mestre</button>
+</div>
+
+<div id="map-hud">
+    <div id="progression-map" onclick="openMap()" title="Ver panorama geral"></div>
+    <button id="open-map-btn" onclick="openMap()">Mapa Estratégico</button>
+</div>
+
+<div id="map-modal">
+    <div class="map-wrapper">
+        <img src="images/mapa.jpg" alt="Mapa Estratégico 1889" id="full-map-img">
+        <div id="player-marker"></div>
+    </div>
+    <button class="close-modal-btn" onclick="closeMap()">Retornar às Sombras</button>
+</div>
+
+<div id="game-container">
+    <h1>Sombras da República</h1>
+    
+    <div id="stats-panel">
+        <div class="stat-tag" id="tag-fase">Fase: <span>Prólogo</span></div>
+        <div class="stat-tag" id="tag-filosofia">Essência: <span>Observador</span></div>
+        <div class="stat-tag" id="tag-online">Rede: <span id="online-count" style="color: #4CAF50;">1</span> online</div>
+    </div>
+    
+    <div id="story-area"></div>
+    
+    <div id="choices"></div>
+</div>
+
+<script src="scripts/script.js"></script>
+
+</body>
+</html>
