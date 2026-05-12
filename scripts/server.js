@@ -53,5 +53,5 @@ io.on('connection', (socket) => {
 });
 
 http.listen(3000, () => {
-    console.log('🌐 Servidor rodando com sistema de Mestre! Abra http://localhost:3000');
+    console.log('Servidor funfando com sistema de mestre! abra : http://localhost:3000');
 });
