@@ -97,7 +97,7 @@ const cards = {
         `,
         choices: [
             {
-                title: "Começar a investigação e virar a primeira carta.",
+                title: "Virar a primeira carta.",
                 target: "carta1"
             }
         ]
