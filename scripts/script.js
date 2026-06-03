@@ -23,12 +23,12 @@ function escolherPapel(papel) {
 }
 
 const localizacoes = {
-    "O Tabuleiro":    { top: '50%', left: '50%', visible: false },
-    "A Faísca":      { top: '58%', left: '46%', visible: true },
-    "O Baile":       { top: '68%', left: '68%', visible: true },
+    "O Tabuleiro": { top: '50%', left: '50%', visible: false },
+    "A Faísca": { top: '58%', left: '46%', visible: true },
+    "O Baile": { top: '68%', left: '68%', visible: true },
     "A Conspiração": { top: '25%', left: '68%', visible: true },
-    "O Dia 15":      { top: '40%', left: '50%', visible: true },
-    "O Legado":      { top: '50%', left: '50%', visible: false }
+    "O Dia 15": { top: '40%', left: '50%', visible: true },
+    "O Legado": { top: '50%', left: '50%', visible: false }
 };
 
 function openMap() {
@@ -50,7 +50,7 @@ function closeMap() {
     document.getElementById('map-modal').style.display = 'none';
 }
 
-document.getElementById('map-modal').addEventListener('click', function(e) {
+document.getElementById('map-modal').addEventListener('click', function (e) {
     if (e.target === this) {
         closeMap();
     }
@@ -82,15 +82,17 @@ const cards = {
         doutrina: "Observador",
         html: `
             <div class="card-header">
-                <h2>As Sombras do Império</h2>
+                <h2>O Tabuleiro da República</h2>
                 <p class="moment">Rio de Janeiro, novembro de 1889.</p>
             </div>
-            <p style="text-align: center; font-size: 16px; line-height: 1.7;">
-                O Império do Brasil está enfraquecido. Militares querem mudanças, fazendeiros defendem seus interesses e jornais espalham rumores pelas ruas.<br><br>
-                Em meio a essa tensão, um mensageiro do Ministério da Guerra é encontrado morto nos Arcos da Lapa.<br>
-                A maleta que ele carregava desapareceu.<br><br>
-                Dentro dela podem existir cartas e documentos capazes de influenciar os acontecimentos que levarão à queda do Império.<br><br>
-                Antes que a História seja escrita, vocês precisam descobrir a verdade.
+            <p style="text-align: justify; font-size: 15px; line-height: 1.6; margin-bottom: 15px;">
+                O Império do Brasil está enfraquecido. A escravidão acabou, mas a sociedade continua dividida. Os militares estão insatisfeitos, os grandes fazendeiros querem preservar seus interesses e a imprensa tenta influenciar o rumo do país. Por fora, a cidade continua viva e elegante. Por dentro, tudo já está em crise.
+            </p>
+            <p style="text-align: justify; font-size: 15px; line-height: 1.6; margin-bottom: 15px;">
+                Dom Pedro II está cansado e distante. A monarquia perdeu apoio em muitos círculos importantes, e a ideia de República começa a ganhar força. Mas a mudança não acontece de forma limpa ou simples. Ela nasce de disputas, ambições e decisões difíceis.
+            </p>
+            <p style="text-align: justify; font-size: 15px; line-height: 1.6; margin-bottom: 15px;">
+                Vocês estão no centro desse período de tensão. A História ainda não decidiu como vai lembrar esses dias, e cada escolha pode aproximar o Brasil de um caminho diferente.
             </p>
         `,
         choices: [
@@ -105,31 +107,31 @@ const cards = {
         fase: "A Faísca",
         doutrina: "Em tensão",
         html: `
-            <div class="card-header">
-                <h2>🃏 Carta 1 — O Mensageiro Morto</h2>
-                <p class="moment">Nos Arcos da Lapa, a verdade está escondida entre sangue, medo e silêncio.</p>
-            </div>
-            <div class="central-question">Uma testemunha viu o assassino, mas tem medo de falar. Como vocês agem?</div>
-        `,
+        <div class="card-header">
+            <h2>🃏 Carta 1 — O Apoio ao Movimento</h2>
+            <p class="moment">Um oficial influente procura vocês e fala com segurança sobre o fim do Império.</p>
+        </div>
+        <div class="central-question">Ele afirma que a mudança precisa acontecer logo, mas apoiar esse movimento significa escolher entre prudência, dever e conveniência. O que vocês fazem?</div>
+    `,
         choices: [
             {
-                title: "A) Convencer com equilíbrio <span class='philosophy-tag'>(Aristóteles)</span>",
+                title: "A) Apoiar com equilíbrio <span class='philosophy-tag'>(Aristóteles)</span>",
                 quote: "A prudência é encontrar a medida certa entre os extremos.",
-                desc: "Você tenta ganhar a confiança da testemunha. Em vez de forçar a resposta, procura uma solução calma, inteligente e segura para todos.",
+                desc: "Você aceita dialogar com o oficial, mas busca agir com cautela. A mudança precisa acontecer de forma equilibrada e sem excessos.",
                 target: "carta2",
                 pathName: "Aristóteles"
             },
             {
-                title: "B) Agir com dever e verdade <span class='philosophy-tag'>(Kant)</span>",
-                quote: "A verdade deve ser dita, mesmo quando isso custa caro.",
-                desc: "Você explica a gravidade da situação e pede colaboração sem mentir, ameaçar ou enganar. Fazer o certo importa mais do que a facilidade.",
+                title: "B) Recusar por dever e princípio <span class='philosophy-tag'>(Kant)</span>",
+                quote: "A verdade deve ser defendida mesmo quando o momento é difícil.",
+                desc: "Você avalia a proposta com base em princípios morais. O mais importante é agir corretamente, independentemente das vantagens políticas.",
                 target: "carta2",
                 pathName: "Kant"
             },
             {
-                title: "C) Pressionar para conseguir a informação <span class='philosophy-tag'>(Maquiavel)</span>",
+                title: "C) Apoiar pela eficiência da crise <span class='philosophy-tag'>(Maquiavel)</span>",
                 quote: "Quando o tempo aperta, a astúcia pesa mais que a delicadeza.",
-                desc: "Você usa intimidação, pressa ou uma mentira útil para arrancar a informação antes que ela desapareça.",
+                desc: "Você acredita que momentos de crise exigem decisões rápidas e eficientes. Se a mudança é inevitável, é melhor participar dela.",
                 target: "carta2",
                 pathName: "Maquiavel"
             }
@@ -140,31 +142,31 @@ const cards = {
         fase: "O Baile",
         doutrina: "Máscaras sociais",
         html: `
-            <div class="card-header">
-                <h2>🃏 Carta 2 — A Ilha Fiscal</h2>
-                <p class="moment">A elite celebra enquanto o país se aproxima da ruptura.</p>
-            </div>
-            <div class="central-question">Vocês precisam entrar no baile onde a maleta será negociada. O que fazem?</div>
-        `,
+        <div class="card-header">
+            <h2>🃏 Carta 2 — O Que Contar ao Povo</h2>
+            <p class="moment">Os rumores crescem, os jornais se dividem e a cidade começa a perceber que algo maior está se movendo.</p>
+        </div>
+        <div class="central-question">Vocês precisam decidir o quanto da crise deve ser revelado. Contar tudo pode gerar caos; esconder demais pode alimentar a manipulação. O que fazem?</div>
+    `,
         choices: [
             {
-                title: "A) Negociar e buscar uma entrada legítima <span class='philosophy-tag'>(Aristóteles)</span>",
-                quote: "Nem tudo se resolve no confronto; a medida certa também abre portas.",
-                desc: "Você tenta conseguir ajuda, apoio ou acesso por meio de conversa, alianças e decisões sensatas.",
+                title: "A) Informar com equilíbrio <span class='philosophy-tag'>(Aristóteles)</span>",
+                quote: "Nem toda verdade precisa ser lançada sem medida.",
+                desc: "Você procura divulgar as informações de maneira responsável, evitando tanto o pânico quanto a omissão.",
                 target: "carta3",
                 pathName: "Aristóteles"
             },
             {
-                title: "B) Entrar com honestidade, sem truques <span class='philosophy-tag'>(Kant)</span>",
-                quote: "A dignidade da ação está em não depender da mentira.",
-                desc: "Você se apresenta como é e assume o risco de ser barrado. O importante é não agir de forma desonesta.",
+                title: "B) Contar toda a verdade <span class='philosophy-tag'>(Kant)</span>",
+                quote: "A verdade não deve ser escondida por conveniência.",
+                desc: "Você acredita que a população tem o direito de saber exatamente o que está acontecendo, sem distorções.",
                 target: "carta3",
                 pathName: "Kant"
             },
             {
-                title: "C) Usar disfarces e falsificações <span class='philosophy-tag'>(Maquiavel)</span>",
-                quote: "Quem quer chegar ao centro do poder precisa saber usar a máscara.",
-                desc: "Você fabrica convites, inventa identidades e faz o que for necessário para atravessar a porta.",
+                title: "C) Controlar a informação <span class='philosophy-tag'>(Maquiavel)</span>",
+                quote: "A informação pode ser uma ferramenta de poder.",
+                desc: "Você decide divulgar apenas o que for útil para conduzir a crise na direção desejada.",
                 target: "carta3",
                 pathName: "Maquiavel"
             }
@@ -175,12 +177,12 @@ const cards = {
         fase: "A Conspiração",
         doutrina: "A verdade em disputa",
         html: `
-            <div class="card-header">
-                <h2>🃏 Carta 3 — A Maleta Desaparecida</h2>
-                <p class="moment">As cartas não revelam apenas segredos. Elas podem alterar o rumo da República.</p>
-            </div>
-            <div class="central-question">Vocês descobrem que documentos falsos serão usados para manipular o país. O que fazer agora?</div>
-        `,
+        <div class="card-header">
+            <h2>🃏 Carta 3 — Quem Vai Se Beneficiar</h2>
+            <p class="moment">A queda do Império parece próxima, mas a disputa agora é sobre quem vai ocupar o espaço deixado por ele.</p>
+        </div>
+        <div class="central-question">A mudança pode abrir caminho para justiça, para controle ou para novos interesses escondidos. Vocês vão buscar equilíbrio, revelar as intenções ou agir para ganhar vantagem?</div>
+    `,
         choices: [
             {
                 title: "A) Buscar o bem comum e evitar extremos <span class='philosophy-tag'>(Aristóteles)</span>",
@@ -210,12 +212,12 @@ const cards = {
         fase: "O Dia 15",
         doutrina: "Destino da República",
         html: `
-            <div class="card-header">
-                <h2>🃏 Carta Final — 15 de Novembro de 1889</h2>
-                <p class="moment">O golpe está em movimento. A História está quase decidida.</p>
-            </div>
-            <div class="central-question">Com as provas nas mãos, como vocês querem agir no momento decisivo?</div>
-        `,
+        <div class="card-header">
+            <h2>🃏 Carta Final — 15 de Novembro de 1889</h2>
+            <p class="moment">As tropas se movem, os boatos aumentam e o Império finalmente cede.</p>
+        </div>
+        <div class="central-question">A República está prestes a nascer. Agora, mais do que nunca, a pergunta é: como vocês querem que esse momento seja lembrado?</div>
+    `,
         choices: [
             {
                 title: "A) Guiar o país com prudência <span class='philosophy-tag'>(Aristóteles)</span>",
