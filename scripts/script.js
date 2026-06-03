@@ -1,4 +1,5 @@
-const socket = io();
+const socket = io({ transports: ['websocket'] });
+
 let isMestre = false;
 let localCurrentScene = 'prologo';
 let playerPath = [];
@@ -16,16 +17,18 @@ function escolherPapel(papel) {
     } else {
         isMestre = false;
     }
+
     document.getElementById('lobby-screen').style.display = 'none';
     renderScene(localCurrentScene);
 }
 
 const localizacoes = {
-    "O Tabuleiro": { top: '50%', left: '50%', visible: false },
-    "Pré-Golpe":   { top: '58%', left: '46%', visible: true },
-    "O Golpe":     { top: '68%', left: '68%', visible: true },
-    "A Nova Era":  { top: '25%', left: '68%', visible: true },
-    "O Legado":    { top: '50%', left: '50%', visible: false }
+    "O Tabuleiro":    { top: '50%', left: '50%', visible: false },
+    "A Faísca":      { top: '58%', left: '46%', visible: true },
+    "O Baile":       { top: '68%', left: '68%', visible: true },
+    "A Conspiração": { top: '25%', left: '68%', visible: true },
+    "O Dia 15":      { top: '40%', left: '50%', visible: true },
+    "O Legado":      { top: '50%', left: '50%', visible: false }
 };
 
 function openMap() {
@@ -55,7 +58,7 @@ document.getElementById('map-modal').addEventListener('click', function(e) {
 
 function updateUI(fase, doutrina) {
     currentFaseName = fase;
-    
+
     if (isMestre) {
         document.getElementById('tag-fase').innerHTML = `<span style="color: gold;">👑 MESTRE</span> | Fase: <span>${fase}</span>`;
     } else {
@@ -63,11 +66,11 @@ function updateUI(fase, doutrina) {
     }
 
     document.getElementById('tag-filosofia').innerHTML = `Essência: <span>${doutrina}</span>`;
-    
+
     const mapElement = document.getElementById('progression-map');
-    const mapPositions = ["center", "30% 70%", "70% 30%", "80% 80%"];
+    const mapPositions = ["center", "30% 70%", "70% 30%", "80% 80%", "45% 55%"];
     mapElement.style.backgroundPosition = mapPositions[Math.min(playerPath.length, mapPositions.length - 1)];
-    
+
     mapElement.classList.remove('pulse-animation');
     void mapElement.offsetWidth;
     mapElement.classList.add('pulse-animation');
@@ -79,120 +82,159 @@ const cards = {
         doutrina: "Observador",
         html: `
             <div class="card-header">
-                <h2>As Regras do Pensamento</h2>
-                <p class="moment">O império rachou. A coroa vai cair.</p>
+                <h2>As Sombras do Império</h2>
+                <p class="moment">Rio de Janeiro, novembro de 1889.</p>
             </div>
-            <p style="text-align: center; font-size: 16px; line-height: 1.6;">
-                Neste jogo, as armas não disparam sem uma ideia que puxe o gatilho.<br>
-                Você deverá escolher o destino da nação baseado em três pensadores definitivos.<br><br>
-                A ordem de Platão. O dever de Kant. A astúcia de Maquiavel.<br><br>
-                <em>"O poder nunca é vazio. Ele sempre serve a uma filosofia."</em>
+            <p style="text-align: center; font-size: 16px; line-height: 1.7;">
+                O Império do Brasil está enfraquecido. Militares querem mudanças, fazendeiros defendem seus interesses e jornais espalham rumores pelas ruas.<br><br>
+                Em meio a essa tensão, um mensageiro do Ministério da Guerra é encontrado morto nos Arcos da Lapa.<br>
+                A maleta que ele carregava desapareceu.<br><br>
+                Dentro dela podem existir cartas e documentos capazes de influenciar os acontecimentos que levarão à queda do Império.<br><br>
+                Antes que a História seja escrita, vocês precisam descobrir a verdade.
             </p>
         `,
         choices: [
             {
-                title: "Analisar as peças. Virar a Primeira Carta.",
+                title: "Começar a investigação e virar a primeira carta.",
                 target: "carta1"
             }
         ]
     },
+
     carta1: {
-        fase: "Pré-Golpe",
-        doutrina: "Indefinida",
+        fase: "A Faísca",
+        doutrina: "Em tensão",
         html: `
             <div class="card-header">
-                <h2>🃏 Carta 1 — “Antes da Queda”</h2>
-                <p class="moment">(Momento: o Império ainda existe, mas está desmoronando nas sombras)</p>
+                <h2>🃏 Carta 1 — O Mensageiro Morto</h2>
+                <p class="moment">Nos Arcos da Lapa, a verdade está escondida entre sangue, medo e silêncio.</p>
             </div>
-            <div class="central-question">O poder deve ser mantido ou transformado?</div>
+            <div class="central-question">Uma testemunha viu o assassino, mas tem medo de falar. Como vocês agem?</div>
         `,
         choices: [
             {
-                title: "A) A Ordem dos Sábios <span class='philosophy-tag'>(Platão)</span>",
-                quote: "“A cidade justa é aquela onde cada um cumpre o seu papel. A democracia é o prelúdio da tirania.”",
-                desc: "Você defende uma hierarquia rígida. O Império não deve cair nas mãos da multidão ou de soldados rasos. Apenas os mais sábios, a aristocracia intelectual (os reis-filósofos), devem guiar o povo cego.",
+                title: "A) Convencer com equilíbrio <span class='philosophy-tag'>(Aristóteles)</span>",
+                quote: "A prudência é encontrar a medida certa entre os extremos.",
+                desc: "Você tenta ganhar a confiança da testemunha. Em vez de forçar a resposta, procura uma solução calma, inteligente e segura para todos.",
                 target: "carta2",
-                pathName: "Platão"
+                pathName: "Aristóteles"
             },
             {
-                title: "B) O Dever Universal <span class='philosophy-tag'>(Kant)</span>",
-                quote: "“Age apenas segundo uma máxima tal que possas querer que ela se torne lei universal.”",
-                desc: "O Império violou a dignidade humana por séculos. A mudança não é uma opção política, é um dever moral absoluto (Imperativo Categórico). O sistema precisa ser reformado porque é o único meio ético de tratar o povo como um fim.",
+                title: "B) Agir com dever e verdade <span class='philosophy-tag'>(Kant)</span>",
+                quote: "A verdade deve ser dita, mesmo quando isso custa caro.",
+                desc: "Você explica a gravidade da situação e pede colaboração sem mentir, ameaçar ou enganar. Fazer o certo importa mais do que a facilidade.",
                 target: "carta2",
                 pathName: "Kant"
             },
             {
-                title: "C) A Tomada pela Virtù <span class='philosophy-tag'>(Maquiavel)</span>",
-                quote: "“Não há nada mais difícil de executar do que a introdução de uma nova ordem de coisas.”",
-                desc: "O Império está fraco. Onde há fraqueza, alguém tomará o espaço. A Fortuna sorri para os audazes; é hora de forçar a ruptura.",
+                title: "C) Pressionar para conseguir a informação <span class='philosophy-tag'>(Maquiavel)</span>",
+                quote: "Quando o tempo aperta, a astúcia pesa mais que a delicadeza.",
+                desc: "Você usa intimidação, pressa ou uma mentira útil para arrancar a informação antes que ela desapareça.",
                 target: "carta2",
                 pathName: "Maquiavel"
             }
         ]
     },
+
     carta2: {
-        fase: "O Golpe",
-        doutrina: "Em formação",
+        fase: "O Baile",
+        doutrina: "Máscaras sociais",
         html: `
             <div class="card-header">
-                <h2>🃏 Carta 2 — “O Dia 15”</h2>
-                <p class="moment">(Momento: O golpe acontece. Tropas nas ruas. O fim é iminente.)</p>
+                <h2>🃏 Carta 2 — A Ilha Fiscal</h2>
+                <p class="moment">A elite celebra enquanto o país se aproxima da ruptura.</p>
             </div>
-            <div class="central-question">O fim justifica os meios?</div>
+            <div class="central-question">Vocês precisam entrar no baile onde a maleta será negociada. O que fazem?</div>
         `,
         choices: [
             {
-                title: "A) A Harmonia do Estado <span class='philosophy-tag'>(Platão)</span>",
-                quote: "“Para o bem da pólis, os governantes podem usar a mentira nobre.”",
-                desc: "O povo não sabe o que é melhor para si. Se for necessário omitir informações ou usar fábulas para acalmar as massas e manter a República alinhada com o Bem Maior, você fará.",
+                title: "A) Negociar e buscar uma entrada legítima <span class='philosophy-tag'>(Aristóteles)</span>",
+                quote: "Nem tudo se resolve no confronto; a medida certa também abre portas.",
+                desc: "Você tenta conseguir ajuda, apoio ou acesso por meio de conversa, alianças e decisões sensatas.",
                 target: "carta3",
-                pathName: "Platão"
+                pathName: "Aristóteles"
             },
             {
-                title: "B) A Intenção Pura <span class='philosophy-tag'>(Kant)</span>",
-                quote: "“A mentira é o abandono e, por assim dizer, a aniquilação da dignidade do homem.”",
-                desc: "Um governo que nasce da traição está fadado à podridão. Você se recusa a agir pelas sombras. Se o Império deve cair, que seja às claras.",
+                title: "B) Entrar com honestidade, sem truques <span class='philosophy-tag'>(Kant)</span>",
+                quote: "A dignidade da ação está em não depender da mentira.",
+                desc: "Você se apresenta como é e assume o risco de ser barrado. O importante é não agir de forma desonesta.",
                 target: "carta3",
                 pathName: "Kant"
             },
             {
-                title: "C) A Preservação do Príncipe <span class='philosophy-tag'>(Maquiavel)</span>",
-                quote: "“Os fins justificam os meios. É melhor ser temido do que amado.”",
-                desc: "A moralidade filosófica é inútil no dia da batalha. Traição e intimidação são apenas ferramentas. Você fará o que for absolutamente necessário.",
+                title: "C) Usar disfarces e falsificações <span class='philosophy-tag'>(Maquiavel)</span>",
+                quote: "Quem quer chegar ao centro do poder precisa saber usar a máscara.",
+                desc: "Você fabrica convites, inventa identidades e faz o que for necessário para atravessar a porta.",
                 target: "carta3",
                 pathName: "Maquiavel"
             }
         ]
     },
+
     carta3: {
-        fase: "A Nova Era",
-        doutrina: "Definida",
+        fase: "A Conspiração",
+        doutrina: "A verdade em disputa",
         html: `
             <div class="card-header">
-                <h2>🃏 Carta 3 — “Depois da Coroa”</h2>
-                <p class="moment">(Momento: A República já foi instaurada. É hora de governar.)</p>
+                <h2>🃏 Carta 3 — A Maleta Desaparecida</h2>
+                <p class="moment">As cartas não revelam apenas segredos. Elas podem alterar o rumo da República.</p>
             </div>
-            <div class="central-question">O que legitima o seu novo governo?</div>
+            <div class="central-question">Vocês descobrem que documentos falsos serão usados para manipular o país. O que fazer agora?</div>
         `,
         choices: [
             {
-                title: "A) A República dos Iluminados <span class='philosophy-tag'>(Platão)</span>",
-                quote: "“Até que os filósofos sejam reis, as cidades nunca terão descanso de seus males.”",
-                desc: "O novo Brasil será governado por uma elite intelectual, um senado de 'guardiões' que ditará as leis e organizará o caos.",
-                target: "final",
-                pathName: "Platão"
+                title: "A) Buscar o bem comum e evitar extremos <span class='philosophy-tag'>(Aristóteles)</span>",
+                quote: "A melhor decisão é aquela que reduz o dano e preserva a cidade.",
+                desc: "Você tenta impedir a mentira, mas também evita transformar a crise em uma guerra aberta. A saída ideal é a mais prudente.",
+                target: "carta4",
+                pathName: "Aristóteles"
             },
             {
-                title: "B) O Reino dos Fins <span class='philosophy-tag'>(Kant)</span>",
-                quote: "“Age de tal maneira que uses a humanidade sempre como um fim, nunca como um meio.”",
-                desc: "A República só será legítima se sua constituição garantir a liberdade e o dever cívico absoluto. O estado de direito se torna a força maior.",
+                title: "B) Expor a verdade sem esconder nada <span class='philosophy-tag'>(Kant)</span>",
+                quote: "A verdade não deve ser usada como ferramenta; ela deve ser respeitada.",
+                desc: "Você decide revelar tudo ao público, mesmo sabendo que isso pode causar desordem e acelerar o conflito.",
+                target: "carta4",
+                pathName: "Kant"
+            },
+            {
+                title: "C) Usar a informação para vencer a disputa <span class='philosophy-tag'>(Maquiavel)</span>",
+                quote: "Num momento de crise, quem controla a informação controla o destino.",
+                desc: "Você permite ou manipula a divulgação para garantir que seu lado saia fortalecido, mesmo que isso custe a verdade.",
+                target: "carta4",
+                pathName: "Maquiavel"
+            }
+        ]
+    },
+
+    carta4: {
+        fase: "O Dia 15",
+        doutrina: "Destino da República",
+        html: `
+            <div class="card-header">
+                <h2>🃏 Carta Final — 15 de Novembro de 1889</h2>
+                <p class="moment">O golpe está em movimento. A História está quase decidida.</p>
+            </div>
+            <div class="central-question">Com as provas nas mãos, como vocês querem agir no momento decisivo?</div>
+        `,
+        choices: [
+            {
+                title: "A) Guiar o país com prudência <span class='philosophy-tag'>(Aristóteles)</span>",
+                quote: "A virtude política está em evitar os excessos.",
+                desc: "Você tenta reduzir os danos, unir grupos diferentes e escolher a saída mais equilibrada para o país.",
+                target: "final",
+                pathName: "Aristóteles"
+            },
+            {
+                title: "B) Agir pelo dever e pela verdade <span class='philosophy-tag'>(Kant)</span>",
+                quote: "A dignidade da ação está em seguir o princípio correto.",
+                desc: "Você defende que a decisão final precisa ser moralmente justa, mesmo que o resultado seja difícil.",
                 target: "final",
                 pathName: "Kant"
             },
             {
-                title: "C) A Razão de Estado <span class='philosophy-tag'>(Maquiavel)</span>",
-                quote: "“Um príncipe não deve ter outro objetivo além da guerra, suas regras e sua disciplina.”",
-                desc: "Para não perder o Brasil, o governo será centralizado na figura de um líder implacável. Você governa com as garras.",
+                title: "C) Garantir a vitória custe o que custar <span class='philosophy-tag'>(Maquiavel)</span>",
+                quote: "O poder não espera quem hesita.",
+                desc: "Você escolhe a solução mais eficiente para vencer a disputa política e manter o controle da situação.",
                 target: "final",
                 pathName: "Maquiavel"
             }
@@ -205,7 +247,7 @@ socket.on('update_players', (qtd) => {
 });
 
 socket.on('estado_inicial', (estado) => {
-    playerPath = estado.paths;
+    playerPath = estado.paths || [];
     renderScene(estado.cena);
 });
 
@@ -227,26 +269,29 @@ function renderScene(sceneId) {
     }
 
     const scene = cards[sceneId];
+    if (!scene) return;
+
     updateUI(scene.fase, playerPath.length > 0 ? playerPath[playerPath.length - 1] : scene.doutrina);
-    
+
     document.getElementById('story-area').innerHTML = scene.html;
-    
+
     const choicesBox = document.getElementById('choices');
     choicesBox.innerHTML = '';
 
     scene.choices.forEach(choice => {
         const btn = document.createElement('button');
         btn.className = 'choice-btn';
-        
+
         let btnHTML = `<div class="choice-title">${choice.title}</div>`;
         if (choice.quote) btnHTML += `<div class="choice-quote">${choice.quote}</div>`;
         if (choice.desc) btnHTML += `<div class="choice-desc">${choice.desc}</div>`;
-        
+
         btn.innerHTML = btnHTML;
-        
+
         if (isMestre) {
             btn.onclick = () => {
-                socket.emit('escolha_feita', {
+                // CORRIGIDO: Enviando 'escolha_feita_pelo_mestre' para conversar com o server.js
+                socket.emit('escolha_feita_pelo_mestre', {
                     target: choice.target,
                     pathName: choice.pathName || null
                 });
@@ -270,26 +315,28 @@ function renderFinal() {
     document.getElementById('story-area').innerHTML = `
         <div class="card-header">
             <h2>Fim de Jogo</h2>
-            <p class="moment">A poeira baixou. As ideias venceram.</p>
+            <p class="moment">A poeira baixou. O Brasil mudou — mas o modo como mudou dependeu das escolhas.</p>
         </div>
         <div class="central-question" style="font-size: 16px;">
-            Evolução Filosófica da sua República:<br><br>
-            <span style="color: var(--accent-color); font-size: 22px; letter-spacing: 2px;">${trindade}</span>
+            Caminho filosófico da sessão:<br><br>
+            <span style="color: var(--accent-color); font-size: 22px; letter-spacing: 2px;">${trindade || "Nenhuma escolha registrada"}</span>
         </div>
         <div class="final-quote">
-            “O corpo do país mudou de dono, mas a verdadeira revolução ocorreu dentro da mente de quem o governa.”
+            “A República não nasceu de uma única vontade. Ela foi moldada por interesses, escolhas e disputas escondidas nos bastidores da História.”
         </div>
     `;
 
     const choicesBox = document.getElementById('choices');
     choicesBox.innerHTML = '';
+
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
-    btn.innerHTML = `<div class="choice-title" style="text-align: center; color: #fff;">Virar as páginas novamente (Reiniciar)</div>`;
-    
+    btn.innerHTML = `<div class="choice-title" style="text-align: center; color: #fff;">Reiniciar a sessão</div>`;
+
     if (isMestre) {
         btn.onclick = () => {
-            socket.emit('escolha_feita', { target: 'prologo' });
+            // CORRIGIDO: Enviando 'escolha_feita_pelo_mestre' também no reinício
+            socket.emit('escolha_feita_pelo_mestre', { target: 'prologo' });
         };
     } else {
         btn.style.opacity = '0.5';
