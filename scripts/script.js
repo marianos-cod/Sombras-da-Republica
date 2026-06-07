@@ -28,6 +28,7 @@ const localizacoes = {
     "O Baile": { top: '68%', left: '68%', visible: true },
     "A Conspiração": { top: '25%', left: '68%', visible: true },
     "O Dia 15": { top: '40%', left: '50%', visible: true },
+    "Os Interesses": { top: '62%', left: '34%', visible: true },
     "O Legado": { top: '50%', left: '50%', visible: false }
 };
 
@@ -80,24 +81,18 @@ const cards = {
     prologo: {
         fase: "O Tabuleiro",
         doutrina: "Observador",
-        html: `
-            <div class="card-header">
-                <h2>O Tabuleiro da República</h2>
-                <p class="moment">Rio de Janeiro, novembro de 1889.</p>
-            </div>
-            <p style="text-align: justify; font-size: 15px; line-height: 1.6; margin-bottom: 15px;">
-                O Império do Brasil está enfraquecido. A escravidão acabou, mas a sociedade continua dividida. Os militares estão insatisfeitos, os grandes fazendeiros querem preservar seus interesses e a imprensa tenta influenciar o rumo do país. Por fora, a cidade continua viva e elegante. Por dentro, tudo já está em crise.
-            </p>
-            <p style="text-align: justify; font-size: 15px; line-height: 1.6; margin-bottom: 15px;">
-                Dom Pedro II está cansado e distante. A monarquia perdeu apoio em muitos círculos importantes, e a ideia de República começa a ganhar força. Mas a mudança não acontece de forma limpa ou simples. Ela nasce de disputas, ambições e decisões difíceis.
-            </p>
-            <p style="text-align: justify; font-size: 15px; line-height: 1.6; margin-bottom: 15px;">
-                Vocês estão no centro desse período de tensão. A História ainda não decidiu como vai lembrar esses dias, e cada escolha pode aproximar o Brasil de um caminho diferente.
-            </p>
-        `,
+        html: `<div class="card-header">
+            <h2>As Sombras do Império</h2>
+            <p class="moment">Rio de Janeiro, 1889.</p>
+        </div>
+        <p style="text-align: center; font-size: 16px; line-height: 1.7;">
+            O Império do Brasil está enfraquecido. A monarquia ainda existe, mas sua base política já não é sólida. Militares, elites agrárias, coronéis e grupos urbanos começam a disputar espaço e influência. Por fora, a ordem continua; por dentro, o poder já está sendo negociado.<br><br>
+            Neste momento, a questão não é apenas se o regime vai mudar. A questão é quem vai se beneficiar dessa mudança. Em um país marcado por interesses, favores e controle local, cada decisão pode fortalecer um grupo e enfraquecer outro.<br><br>
+            Vocês estão no centro dessa disputa. A História ainda não decidiu como vai lembrar esses dias, e cada escolha pode aproximar o Brasil de uma República de interesses.
+        </p>`,
         choices: [
             {
-                title: "Virar a primeira carta.",
+                title: "Começar a investigação e virar a primeira carta.",
                 target: "carta1"
             }
         ]
@@ -109,7 +104,7 @@ const cards = {
         html: `
         <div class="card-header">
             <h2>🃏 Carta 1 — O Apoio ao Movimento</h2>
-            <p class="moment">Um oficial influente procura vocês e fala com segurança sobre o fim do Império.</p>
+            <p class="moment">Um militar influente procura vocês e fala com segurança sobre o fim do Império.</p>
         </div>
         <div class="central-question">Ele afirma que a mudança precisa acontecer logo, mas apoiar esse movimento significa escolher entre prudência, dever e conveniência. O que vocês fazem?</div>
     `,
@@ -213,30 +208,65 @@ const cards = {
         doutrina: "Destino da República",
         html: `
         <div class="card-header">
-            <h2>🃏 Carta Final — 15 de Novembro de 1889</h2>
+            <h2>🃏 Carta 4 — A Proclamação da República</h2>
             <p class="moment">As tropas se movem, os boatos aumentam e o Império finalmente cede.</p>
         </div>
-        <div class="central-question">A República está prestes a nascer. Agora, mais do que nunca, a pergunta é: como vocês querem que esse momento seja lembrado?</div>
+        <div class="central-question">A República está prestes a ser proclamada. Mas a pergunta continua: esse novo regime vai servir ao povo ou aos interesses de poucos?</div>
     `,
         choices: [
             {
                 title: "A) Guiar o país com prudência <span class='philosophy-tag'>(Aristóteles)</span>",
                 quote: "A virtude política está em evitar os excessos.",
                 desc: "Você tenta reduzir os danos, unir grupos diferentes e escolher a saída mais equilibrada para o país.",
-                target: "final",
+                target: "carta5",
                 pathName: "Aristóteles"
             },
             {
                 title: "B) Agir pelo dever e pela verdade <span class='philosophy-tag'>(Kant)</span>",
                 quote: "A dignidade da ação está em seguir o princípio correto.",
                 desc: "Você defende que a decisão final precisa ser moralmente justa, mesmo que o resultado seja difícil.",
-                target: "final",
+                target: "carta5",
                 pathName: "Kant"
             },
             {
                 title: "C) Garantir a vitória custe o que custar <span class='philosophy-tag'>(Maquiavel)</span>",
                 quote: "O poder não espera quem hesita.",
                 desc: "Você escolhe a solução mais eficiente para vencer a disputa política e manter o controle da situação.",
+                target: "carta5",
+                pathName: "Maquiavel"
+            }
+        ]
+    },
+
+    carta5: {
+        fase: "Os Interesses",
+        doutrina: "República de Interesses",
+        html: `
+        <div class="card-header">
+            <h2>🃏 Carta 5 — A República dos Interesses</h2>
+            <p class="moment">A República já foi proclamada, mas o jogo do poder está longe de terminar.</p>
+        </div>
+        <div class="central-question">Agora o foco se desloca para o interior, para os coronéis, para os acordos locais e para o controle do voto. A nova República vai servir ao povo ou continuar nas mãos de poucos?</div>
+    `,
+        choices: [
+            {
+                title: "A) Defender limites ao poder local <span class='philosophy-tag'>(Aristóteles)</span>",
+                quote: "Uma República só é justa quando reduz os abusos.",
+                desc: "Você tenta impedir que a nova ordem repita a lógica da velha dominação e busca uma organização mais equilibrada.",
+                target: "final",
+                pathName: "Aristóteles"
+            },
+            {
+                title: "B) Denunciar a manipulação dos poderosos <span class='philosophy-tag'>(Kant)</span>",
+                quote: "Sem verdade, a justiça vira aparência.",
+                desc: "Você expõe a lógica de favores, coerção e controle que sustenta a nova ordem.",
+                target: "final",
+                pathName: "Kant"
+            },
+            {
+                title: "C) Entrar no jogo para sobreviver <span class='philosophy-tag'>(Maquiavel)</span>",
+                quote: "Quem não participa do jogo, é excluído por ele.",
+                desc: "Você aceita a realidade do sistema e passa a agir dentro dele para manter influência e poder.",
                 target: "final",
                 pathName: "Maquiavel"
             }
@@ -312,19 +342,21 @@ function renderScene(sceneId) {
 
 function renderFinal() {
     const trindade = playerPath.join(" → ");
-    updateUI("O Legado", "O Arquiteto do Sistema");
+    updateUI("O Legado", "República de Interesses");
 
     document.getElementById('story-area').innerHTML = `
         <div class="card-header">
             <h2>Fim de Jogo</h2>
-            <p class="moment">A poeira baixou. O Brasil mudou — mas o modo como mudou dependeu das escolhas.</p>
+            <p class="moment">A poeira baixou. O Brasil mudou — mas o novo regime ainda carrega disputas de interesse.</p>
         </div>
+
         <div class="central-question" style="font-size: 16px;">
             Caminho filosófico da sessão:<br><br>
             <span style="color: var(--accent-color); font-size: 22px; letter-spacing: 2px;">${trindade || "Nenhuma escolha registrada"}</span>
         </div>
+
         <div class="final-quote">
-            “A República não nasceu de uma única vontade. Ela foi moldada por interesses, escolhas e disputas escondidas nos bastidores da História.”
+            “A República nasceu, mas não nasceu pura. Ela também foi moldada por alianças, controle e disputa por poder.”
         </div>
     `;
 
@@ -337,7 +369,6 @@ function renderFinal() {
 
     if (isMestre) {
         btn.onclick = () => {
-            // CORRIGIDO: Enviando 'escolha_feita_pelo_mestre' também no reinício
             socket.emit('escolha_feita_pelo_mestre', { target: 'prologo' });
         };
     } else {
